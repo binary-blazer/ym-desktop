@@ -1,9 +1,15 @@
 // src/main/main.ts
 import path from 'path';
-import { app, BrowserWindow, shell, screen, dialog, Menu, Tray } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  screen,
+  dialog,
+  Menu,
+  Tray,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
-import blockWindowAds from 'electron-ad-blocker';
-import fetch from 'cross-fetch';
 
 import { version } from '../../package.json';
 
@@ -138,8 +144,6 @@ const createWindow = async (updateAvailable: boolean) => {
     },
   });
 
-  await blockWindowAds(mainWindow);
-
   mainWindow.webContents.on('did-finish-load', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -153,9 +157,14 @@ const createWindow = async (updateAvailable: boolean) => {
     }
   });
 
-  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
-    console.error(`Failed to load URL: ${validatedURL} with error: ${errorDescription} (${errorCode})`);
-  });
+  mainWindow.webContents.on(
+    'did-fail-load',
+    (event, errorCode, errorDescription, validatedURL) => {
+      console.error(
+        `Failed to load URL: ${validatedURL} with error: ${errorDescription} (${errorCode})`,
+      );
+    },
+  );
 
   mainWindow.loadURL('https://music.youtube.com');
 
@@ -209,7 +218,8 @@ const createWindow = async (updateAvailable: boolean) => {
                 type: 'info',
                 buttons: ['Update now', 'Later', 'Close'],
                 title: 'Update Available',
-                message: 'An update is available. Would you like to update now?',
+                message:
+                  'An update is available. Would you like to update now?',
               });
 
               if (response.response === 0) {

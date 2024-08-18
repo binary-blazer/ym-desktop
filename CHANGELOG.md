@@ -1,4 +1,5 @@
 # 1.1.0
+
 - Bump @types/node from 20.6.2 to 22.4.0 by @dependabot in https://github.com/binary-blazer/ym-desktop/pull/5
 - Bump eslint-plugin-compat from 4.2.0 to 6.0.0 by @dependabot in https://github.com/binary-blazer/ym-desktop/pull/4
 - Bump rimraf from 5.0.10 to 6.0.1 by @dependabot in https://github.com/binary-blazer/ym-desktop/pull/3

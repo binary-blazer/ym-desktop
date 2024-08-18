@@ -182,7 +182,13 @@
       "sign": ".ym/scripts/notarize.js",
       "notarize": false,
       "target": {
-        "target": "default",
+        "target": [
+          "default",
+          "dmg",
+          "pkg",
+          "mas",
+          "mas-dev"
+        ],
         "arch": [
           "arm64",
           "x64"
@@ -210,14 +216,36 @@
     },
     "win": {
       "target": [
-        "nsis"
+        "nsis",
+        "nsis-web",
+        "portable",
+        "AppX",
+        "Squirrel.Windows"
       ]
     },
     "linux": {
       "target": [
-        "AppImage"
+        "AppImage",
+        "snap",
+        "deb",
+        "rpm",
+        "freebsd",
+        "pacman",
+        "p5p",
+        "apk"
       ],
       "category": "Development"
+    },
+    "all": {
+      "target": [
+        "7z",
+        "zip",
+        "tar.xz",
+        "tar.lz",
+        "tar.gz",
+        "tar.bz2",
+        "dir"
+      ]
     },
     "directories": {
       "app": "release/app",
