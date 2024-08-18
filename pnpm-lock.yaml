@@ -11,6 +11,9 @@ importers:
       '@cliqz/adblocker-electron':
         specifier: ^1.31.3
         version: 1.31.3(electron@26.6.10)
+      '@cliqz/adblocker-electron-preload':
+        specifier: ^1.31.3
+        version: 1.31.3(electron@26.6.10)
       '@electron/notarize':
         specifier: ^2.3.2
         version: 2.4.0
