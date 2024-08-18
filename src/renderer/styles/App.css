@@ -1,0 +1,49 @@
+body {
+  position: relative;
+  color: white;
+  height: 100vh;
+  background: #0f0f0f;
+  font-family: sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.loading-bar {
+  width: 40vw;
+  height: 5px;
+  background-color: gray;
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden; /* Ensure the fill doesn't overflow the bar */
+}
+
+.loading-bar-fill {
+  width: 50%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  border-radius: 5px;
+  animation: loadingAnimation 1.5s linear infinite; /* Add animation */
+}
+
+@keyframes loadingAnimation {
+  0% {
+    transform: translateX(-200%);
+  }
+  50% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}

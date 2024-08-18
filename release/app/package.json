@@ -1,0 +1,18 @@
+{
+  "name": "ymd-core",
+  "version": "1.0.0",
+  "description": "The YouTube music desktop app. Access YouTube music easily through an Application. Built for Windows, Linux and macOS.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Jonas F. Franke (BinaryBlazer)",
+    "email": "jonasfranke@sdevs.org",
+    "url": "https://binaryblazer.me"
+  },
+  "main": "./dist/main/main.js",
+  "scripts": {
+    "rebuild": "node -r ts-node/register ../../.ym/scripts/electron-rebuild.js",
+    "postinstall": "pnpm run rebuild && pnpm run link-modules",
+    "link-modules": "node -r ts-node/register ../../.ym/scripts/link-modules.ts"
+  },
+  "dependencies": {}
+}
