@@ -65,6 +65,7 @@ const createWindow = async (updateAvailable: boolean) => {
     width,
     height,
     icon: getAssetPath('icon.png'),
+    title: 'YouTube Music Desktop',
     autoHideMenuBar: true,
     webPreferences: {
       preload: app.isPackaged
@@ -77,6 +78,7 @@ const createWindow = async (updateAvailable: boolean) => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
+    mainWindow.setTitle('YouTube Music Desktop');
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
