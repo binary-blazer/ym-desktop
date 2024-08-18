@@ -19,3 +19,7 @@ If you would like to contribute to ShadowBrowse, please fork the repository and 
 ## License
 
 Youtube Music Desktop (YMD) is licensed under the [Apache License 2.0](https://github.com/binary-blazer/ym-desktop/blob/main/LICENSE).
+
+## Other Licenses and Links
+
+- The repository icon / app icon (Youtube Music Logo) is taken from the [Youtube Music Brand Resources](https://partnermarketinghub.withgoogle.com/brands/youtube-music/visual-identity/). License under the Creative Commons Attribution 4.0 International License.
