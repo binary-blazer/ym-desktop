@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable global-require */
 import path from 'path';
-import { app, BrowserWindow, shell, screen, dialog } from 'electron';
+import { app, BrowserWindow, shell, screen, dialog, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import { Adblocker } from '@cliqz/adblocker-electron';
 
 import { version } from '../../package.json';
 
@@ -74,6 +75,9 @@ const createWindow = async (updateAvailable: boolean) => {
     },
   });
 
+  const adblocker = await Adblocker.fromPrebuiltAdsAndTracking();
+  await adblocker.enableBlockingInSession(mainWindow.webContents.session);
+
   mainWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -141,6 +145,57 @@ const createWindow = async (updateAvailable: boolean) => {
       app.quit();
     }
   }
+
+  const menuTemplate = [
+    {
+      label: 'Options',
+      submenu: [
+        {
+          label: 'Check for Updates',
+          click: async () => {
+            const updateAvailable = await checkForUpdates();
+            if (updateAvailable) {
+              const response = await dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                buttons: ['Update now', 'Later', 'Close'],
+                title: 'Update Available',
+                message: 'An update is available. Would you like to update now?',
+              });
+
+              if (response.response === 0) {
+                autoUpdater.quitAndInstall();
+              }
+            } else {
+              dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                buttons: ['OK'],
+                title: 'No Updates',
+                message: 'You are using the latest version.',
+              });
+            }
+          },
+        },
+        {
+          label: 'App Info',
+          click: () => {
+            const versions = `Node.js: ${process.versions.node}\nElectron: ${process.versions.electron}\nChromium: ${process.versions.chrome}\nApp: ${version}`;
+            dialog.showMessageBox(mainWindow, {
+              type: 'info',
+              buttons: ['OK'],
+              title: 'App Info',
+              message: 'App Versions',
+              detail: versions,
+            });
+          },
+        },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    },
+  ];
+
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
 };
 
 app.on('window-all-closed', () => {
