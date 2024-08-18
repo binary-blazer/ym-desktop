@@ -87,6 +87,22 @@ const createWindow = async (updateAvailable: boolean) => {
     }
   });
 
+  mainWindow.on('close', async (event) => {
+    event.preventDefault();
+
+    const response = await dialog.showMessageBox(mainWindow as any, {
+      type: 'warning',
+      buttons: ['Yes', 'No'],
+      title: 'Close Warning',
+      message:
+        'Do you really want to close the Youtube Music Desktop (YDM) application?',
+    });
+
+    if (response.response === 0) {
+      app.exit();
+    }
+  });
+
   mainWindow.loadURL('https://music.youtube.com');
 
   mainWindow.setMenu(null);
