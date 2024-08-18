@@ -36,9 +36,9 @@ const installExtensions = async () => {
 const checkForUpdates = async (): Promise<boolean> => {
   try {
     const result = await autoUpdater.checkForUpdates();
-    const updateAvailable = result && result.updateInfo.version !== version;
+    const updateAvailable = result && result.updateInfo?.version !== version;
     const updateDownloaded = result && result.downloadPromise !== undefined;
-    return updateAvailable && !updateDownloaded;
+    return !!(updateAvailable && !updateDownloaded);
   } catch (erro: any) {
     console.error('Error checking for updates:', erro);
     return false;
@@ -85,10 +85,7 @@ const createWindow = async (updateAvailable: boolean) => {
     }
   });
 
-  mainWindow.loadURL('https://music.youtube.com/', {
-    userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-  });
+  mainWindow.loadURL('https://music.youtube.com');
 
   mainWindow.setMenu(null);
 

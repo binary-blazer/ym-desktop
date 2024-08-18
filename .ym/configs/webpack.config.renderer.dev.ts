@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import chalk from 'chalk';
+import { black, bgYellow, bold } from 'colorette';
 import { merge } from 'webpack-merge';
 import { execSync, spawn } from 'child_process';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
@@ -31,8 +31,12 @@ if (
   !(fs.existsSync(webpackPaths.dllPath) && fs.existsSync(manifest))
 ) {
   console.log(
-    chalk.black.bgYellow.bold(
-      'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"',
+    black(
+      bgYellow(
+        bold(
+          'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"',
+        ),
+      ),
     ),
   );
   execSync('npm run postinstall');

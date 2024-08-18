@@ -11,6 +11,9 @@ importers:
       '@electron/notarize':
         specifier: ^2.3.2
         version: 2.4.0
+      colorette:
+        specifier: ^2.0.20
+        version: 2.0.20
       electron-debug:
         specifier: ^3.2.0
         version: 3.2.0
@@ -96,9 +99,6 @@ importers:
       browserslist-config-erb:
         specifier: ^0.0.3
         version: 0.0.3(electron@26.6.10)
-      chalk:
-        specifier: ^5.3.0
-        version: 5.3.0
       concurrently:
         specifier: ^8.2.1
         version: 8.2.2
@@ -2196,10 +2196,6 @@ packages:
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
-
-  chalk@5.3.0:
-    resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
   change-file-extension@0.1.1:
     resolution: {integrity: sha512-lB0j9teu8JtDPDHRfU8pNH33w4wMu5bOaKoT4PxH+AKugBrIfpiJMTTKIm0TErNeJPkeQEgvH31YpccTwOKPRg==}
@@ -8793,8 +8789,6 @@ snapshots:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-
-  chalk@5.3.0: {}
 
   change-file-extension@0.1.1: {}
 
