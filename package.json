@@ -169,31 +169,19 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "Youtube Music Desktop",
-    "appId": "org.jonasfranke.ymd",
-    "asar": true,
-    "asarUnpack": "**\\*.{node,dll}",
-    "files": [
-      "dist",
-      "node_modules",
-      "package.json"
-    ],
     "mac": {
       "sign": ".ym/scripts/notarize.js",
       "notarize": false,
-      "target": {
-        "target": [
-          "default",
-          "dmg",
-          "pkg",
-          "mas",
-          "mas-dev"
-        ],
-        "arch": [
-          "arm64",
-          "x64"
-        ]
-      },
+      "target": [
+        "dmg",
+        "pkg",
+        "mas",
+        "mas-dev"
+      ],
+      "arch": [
+        "arm64",
+        "x64"
+      ],
       "type": "distribution",
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
@@ -236,40 +224,22 @@
       ],
       "category": "Development"
     },
-    "all": {
-      "target": [
-        "7z",
-        "zip",
-        "tar.xz",
-        "tar.lz",
-        "tar.gz",
-        "tar.bz2",
-        "dir"
-      ]
-    },
-    "directories": {
-      "app": "release/app",
-      "buildResources": "assets",
-      "output": "release/build"
-    },
     "extraResources": [
-      "./assets/**"
+      {
+        "from": "resources/",
+        "to": "resources/",
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
-    "publish": {
-      "provider": "github",
-      "owner": "binary-blazer",
-      "repo": "ym-desktop"
+    "files": [
+      "dist/",
+      "node_modules/",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
     }
-  },
-  "devEngines": {
-    "node": ">=14.x",
-    "pnpm": ">=7.x"
-  },
-  "electronmon": {
-    "patterns": [
-      "!**/**",
-      "src/main/**"
-    ],
-    "logLevel": "quiet"
   }
 }
