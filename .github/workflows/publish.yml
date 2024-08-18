@@ -38,6 +38,11 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
 
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
       - name: Install Node
         uses: actions/setup-node@v3
         with:
@@ -47,10 +52,14 @@ jobs:
         run: |
           npm install -g pnpm
 
-      - name: Install and build
+      - name: Install
         run: |
           pnpm install
+          pnpm install electron-ad-blocker
           pnpm run postinstall
+        
+      - name: Build
+        run: |
           pnpm run build
 
       - name: Publish release files
@@ -70,6 +79,11 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
 
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
       - name: Install Node
         uses: actions/setup-node@v3
         with:
@@ -79,10 +93,14 @@ jobs:
         run: |
           npm install -g pnpm
 
-      - name: Install and build
+      - name: Install
         run: |
           pnpm install
+          pnpm install electron-ad-blocker
           pnpm run postinstall
+      
+      - name: Build
+        run: |
           pnpm run build
 
       - name: Publish release files
@@ -102,6 +120,23 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
 
+      - name: Ensure Chocolatey is installed
+        run: |
+          if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+            Set-ExecutionPolicy Bypass -Scope Process -Force;
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
+          }
+
+      - name: Install Visual Studio
+        run: |
+          choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.Node"
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
       - name: Install Node
         uses: actions/setup-node@v3
         with:
@@ -111,10 +146,14 @@ jobs:
         run: |
           npm install -g pnpm
 
-      - name: Install and build
+      - name: Install
         run: |
           pnpm install
+          pnpm install electron-ad-blocker
           pnpm run postinstall
+
+      - name: Build
+        run: |
           pnpm run build
 
       - name: Publish release files

@@ -2,7 +2,7 @@
 import path from 'path';
 import { app, BrowserWindow, shell, screen, dialog, Menu, Tray } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import { ElectronBlocker } from '@cliqz/adblocker-electron';
+import blockWindowAds from 'electron-ad-blocker';
 import fetch from 'cross-fetch';
 
 import { version } from '../../package.json';
@@ -138,6 +138,8 @@ const createWindow = async (updateAvailable: boolean) => {
     },
   });
 
+  await blockWindowAds(mainWindow);
+
   mainWindow.webContents.on('did-finish-load', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -149,9 +151,6 @@ const createWindow = async (updateAvailable: boolean) => {
       mainWindow.show();
       mainWindow.focus();
     }
-
-    const blocker = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch);
-    blocker.enableBlockingInSession(mainWindow.webContents.session);
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
