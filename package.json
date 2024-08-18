@@ -170,8 +170,6 @@
   },
   "build": {
     "mac": {
-      "sign": ".ym/scripts/notarize.js",
-      "notarize": false,
       "target": [
         "dmg",
         "pkg",
@@ -202,8 +200,7 @@
       "target": [
         "nsis",
         "nsis-web",
-        "portable",
-        "AppX"
+        "portable"
       ]
     },
     "linux": {

@@ -70,6 +70,9 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
 
+      - name: Install Snapcraft
+        run: sudo snap install snapcraft --classic
+
       - name: Install Node
         uses: actions/setup-node@v3
         with:
