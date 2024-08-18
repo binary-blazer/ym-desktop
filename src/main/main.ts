@@ -1,13 +1,14 @@
-/* eslint-disable no-console */
-/* eslint-disable global-require */
+// src/main/main.ts
 import path from 'path';
-import { app, BrowserWindow, shell, screen, dialog, Menu } from 'electron';
+import { app, BrowserWindow, shell, screen, dialog, Menu, Tray } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import { Adblocker } from '@cliqz/adblocker-electron';
+import { ElectronBlocker } from '@cliqz/adblocker-electron';
+import fetch from 'cross-fetch';
 
 import { version } from '../../package.json';
 
 let mainWindow: BrowserWindow | null = null;
+let tray: Tray | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -46,6 +47,70 @@ const checkForUpdates = async (): Promise<boolean> => {
   }
 };
 
+const createTray = () => {
+  const iconPath = path.join(__dirname, '../../assets/icon.png');
+  tray = new Tray(iconPath);
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show App',
+      click: () => {
+        if (mainWindow) {
+          mainWindow.show();
+        }
+      },
+    },
+    {
+      label: 'Check for Updates',
+      click: async () => {
+        const updateAvailable = await checkForUpdates();
+        if (updateAvailable) {
+          const response = await dialog.showMessageBox(mainWindow as any, {
+            type: 'info',
+            buttons: ['Update now', 'Later', 'Close'],
+            title: 'Update Available',
+            message: 'An update is available. Would you like to update now?',
+          });
+
+          if (response.response === 0) {
+            autoUpdater.quitAndInstall();
+          }
+        } else {
+          dialog.showMessageBox(mainWindow as any, {
+            type: 'info',
+            buttons: ['OK'],
+            title: 'No Updates',
+            message: 'You are using the latest version.',
+          });
+        }
+      },
+    },
+    {
+      label: 'App Info',
+      click: () => {
+        const versions = `Node.js: ${process.versions.node}\nElectron: ${process.versions.electron}\nChromium: ${process.versions.chrome}\nApp: ${version}`;
+        dialog.showMessageBox(mainWindow as any, {
+          type: 'info',
+          buttons: ['OK'],
+          title: 'App Info',
+          message: 'App Versions',
+          detail: versions,
+        });
+      },
+    },
+    { type: 'separator' },
+    {
+      label: 'Quit',
+      click: () => {
+        app.exit();
+      },
+    },
+  ]);
+
+  tray.setToolTip('YouTube Music Desktop');
+  tray.setContextMenu(contextMenu);
+};
+
 const createWindow = async (updateAvailable: boolean) => {
   if (isDebug) {
     await installExtensions();
@@ -67,18 +132,13 @@ const createWindow = async (updateAvailable: boolean) => {
     height,
     icon: getAssetPath('icon.png'),
     title: 'YouTube Music Desktop',
-    autoHideMenuBar: true,
+    frame: false, // Disable the default frame
     webPreferences: {
-      preload: app.isPackaged
-        ? path.join(__dirname, 'preload.js')
-        : path.join(__dirname, '../../.ym/dll/preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  const adblocker = await Adblocker.fromPrebuiltAdsAndTracking();
-  await adblocker.enableBlockingInSession(mainWindow.webContents.session);
-
-  mainWindow.webContents.on('did-finish-load', () => {
+  mainWindow.webContents.on('did-finish-load', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
@@ -89,22 +149,13 @@ const createWindow = async (updateAvailable: boolean) => {
       mainWindow.show();
       mainWindow.focus();
     }
+
+    const blocker = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch);
+    blocker.enableBlockingInSession(mainWindow.webContents.session);
   });
 
-  mainWindow.on('close', async (event) => {
-    event.preventDefault();
-
-    const response = await dialog.showMessageBox(mainWindow as any, {
-      type: 'warning',
-      buttons: ['Yes', 'No'],
-      title: 'Close Warning',
-      message:
-        'Do you really want to close the Youtube Music Desktop (YDM) application?',
-    });
-
-    if (response.response === 0) {
-      app.exit();
-    }
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.error(`Failed to load URL: ${validatedURL} with error: ${errorDescription} (${errorCode})`);
   });
 
   mainWindow.loadURL('https://music.youtube.com');
@@ -155,7 +206,7 @@ const createWindow = async (updateAvailable: boolean) => {
           click: async () => {
             const updateAvailable = await checkForUpdates();
             if (updateAvailable) {
-              const response = await dialog.showMessageBox(mainWindow, {
+              const response = await dialog.showMessageBox(mainWindow as any, {
                 type: 'info',
                 buttons: ['Update now', 'Later', 'Close'],
                 title: 'Update Available',
@@ -166,7 +217,7 @@ const createWindow = async (updateAvailable: boolean) => {
                 autoUpdater.quitAndInstall();
               }
             } else {
-              dialog.showMessageBox(mainWindow, {
+              dialog.showMessageBox(mainWindow as any, {
                 type: 'info',
                 buttons: ['OK'],
                 title: 'No Updates',
@@ -179,7 +230,7 @@ const createWindow = async (updateAvailable: boolean) => {
           label: 'App Info',
           click: () => {
             const versions = `Node.js: ${process.versions.node}\nElectron: ${process.versions.electron}\nChromium: ${process.versions.chrome}\nApp: ${version}`;
-            dialog.showMessageBox(mainWindow, {
+            dialog.showMessageBox(mainWindow as any, {
               type: 'info',
               buttons: ['OK'],
               title: 'App Info',
@@ -189,12 +240,17 @@ const createWindow = async (updateAvailable: boolean) => {
           },
         },
         { type: 'separator' },
-        { role: 'quit' },
+        {
+          label: 'Quit',
+          click: () => {
+            app.exit();
+          },
+        },
       ],
     },
   ];
 
-  const menu = Menu.buildFromTemplate(menuTemplate);
+  const menu = Menu.buildFromTemplate(menuTemplate as any);
   Menu.setApplicationMenu(menu);
 };
 
@@ -206,10 +262,10 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  // eslint-disable-next-line promise/always-return
   .then(async () => {
     const updateAvailable = await checkForUpdates();
     await createWindow(updateAvailable);
+    createTray();
     app.on('activate', () => {
       if (mainWindow === null) createWindow(false);
     });
