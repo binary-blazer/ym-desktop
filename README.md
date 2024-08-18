@@ -1,16 +1,16 @@
 <div align="center"> 
   <img src="/assets/icon.png" alt="Icon" width="125" height="125">
-  <h1>Flaskyi CI</h1>
-  <p>Flaskyi CI is a desktop application that allows users to interact with the Flaskyi AI models.</p>
+  <h1>Youtube Music Desktop (YMD)</h1>
+  <p>Youtube Music Desktop is a desktop application that allows users to listen to music from Youtube Music directly on their desktop.</p>
 </div>
 
 ## Installation
 
-To install the Flaskyi CI, simply download the latest release from the [releases page](https://github.com/flaskyi/desktop/releases) and run the installer.
+To install the Youtube Music Desktop, simply download the latest release from the [releases page](https://github.com/binary-blazer/ym-desktop/releases) and run the installer for your operating system.
 
 ## Usage
 
-To use the Flaskyi CI, simply open the application and start interacting with the AI models.
+To use the Youtube Music Desktop, simply open the application and sign in with your Google account. You can then search for music, create playlists, and listen to music directly from Youtube Music.
 
 ## Contributing
 
@@ -18,4 +18,4 @@ If you would like to contribute to ShadowBrowse, please fork the repository and 
 
 ## License
 
-The Flaskyi CI is licensed under the [Apache License 2.0](https://github.com/flaskyi/desktop/blob/main/LICENSE).
+Youtube Music Desktop (YMD) is licensed under the [Apache License 2.0](https://github.com/binary-blazer/ym-desktop/blob/main/LICENSE).
