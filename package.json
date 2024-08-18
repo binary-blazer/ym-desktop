@@ -203,8 +203,7 @@
         "nsis",
         "nsis-web",
         "portable",
-        "AppX",
-        "Squirrel.Windows"
+        "AppX"
       ]
     },
     "linux": {
