@@ -33,6 +33,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "scripts:dimensions": "ts-node ./scripts/createIconDimensions.ts",
+    "scripts:updateVersion": "ts-node ./scripts/updateVersion.ts",
     "test": "jest"
   },
   "browserslist": [],
