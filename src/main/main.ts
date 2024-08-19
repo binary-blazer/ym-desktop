@@ -54,8 +54,7 @@ const checkForUpdates = async (): Promise<boolean> => {
 };
 
 const createTray = () => {
-  const iconPath = path.join(__dirname, '../../assets/icon.png');
-  tray = new Tray(iconPath);
+  tray = new Tray("https://github.com/binary-blazer/ym-desktop/blob/v1.4.3/assets/icon.png");
 
   const contextMenu = Menu.buildFromTemplate([
     {
