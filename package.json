@@ -175,6 +175,7 @@
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
       "dist",
+      "assets",
       "node_modules",
       "package.json"
     ],
