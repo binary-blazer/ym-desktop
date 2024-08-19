@@ -138,7 +138,6 @@ const createWindow = async (updateAvailable: boolean) => {
     height,
     icon: getAssetPath('icon.png'),
     title: 'YouTube Music Desktop',
-    frame: false, // Disable the default frame
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
