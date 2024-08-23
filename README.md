@@ -14,7 +14,7 @@ To use the Youtube Music Desktop, simply open the application and sign in with y
 
 ## Contributing
 
-If you would like to contribute to ShadowBrowse, please fork the repository and submit a pull request. We welcome all contributions and feedback.
+If you would like to contribute to Youtube Music Desktop (YMD), please fork the repository and submit a pull request. We welcome all contributions and feedback.
 
 ## License
 
